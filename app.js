@@ -7,10 +7,10 @@ const indexRouter = require('./routes/index');
 const emailRouter = require('./routes/email');
 const authorizeRouter = require('./routes/authorize');
 const callRouter = require('./routes/call');
-const usersRouter = require('./routes/users');
 const enrollRouter = require('./routes/enroll');
 const createProfileRouter = require('./routes/create-profile');
 const createEnrollmentRouter = require('./routes/create-enrollment');
+const submitToDatabaseRouter = require('./routes/submit');
 
 const app = express();
 
@@ -27,10 +27,10 @@ app.use('/', indexRouter);
 app.use('/email', emailRouter);
 app.use('/authorize', authorizeRouter);
 app.use('/call', callRouter);
-app.use('/users', usersRouter);
 app.use('/enroll', enrollRouter);
 app.use('/create', createProfileRouter);
 app.use('/register', createEnrollmentRouter);
+app.use('/submit', submitToDatabaseRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
