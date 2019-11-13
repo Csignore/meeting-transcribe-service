@@ -7,7 +7,7 @@ WORKDIR /MTS
 # Install app dependencies
 COPY package*.json ./
 
-RUN apt-get install -y ffmpeg
+RUN apt-get update && apt-get install -y ffmpeg
 RUN npm install
 
 

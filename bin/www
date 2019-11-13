@@ -88,6 +88,7 @@ function onError(error) {
 async function onListening() {
   const tunnel = await localtunnel({ port: 3000 });
   process.env.SERVER_ADDRESS = tunnel.url;
+  console.log(process.env.SERVER_ADDRESS);
   const recordingDir = './Recordings';
   const addr = server.address();
   const bind = typeof addr === 'string'
