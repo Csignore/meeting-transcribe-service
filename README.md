@@ -11,7 +11,7 @@ docker pull ychenvin/mtsparrot
 ## Run the image
 1. start the server:
 ```
-docker run -d -p 8888:3000 mtsapp
+docker run -d -p 8888:3000 ychenvin/mtsparrot:MVP-Nov13
 ```
 
 2. view the real-time command line logs of the container: 
