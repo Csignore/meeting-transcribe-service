@@ -68,4 +68,6 @@ services/transcribe/output/
 .idea/
 database.json
 recordings/
+
 .env.sample
+transcriptions/

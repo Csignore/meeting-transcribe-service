@@ -4,9 +4,9 @@
  * Module dependencies.
  */
 require('dotenv').config();
+const localtunnel = require('localtunnel');
 const debug = require('debug')('parrot:server');
 const http = require('http');
-const fs = require("fs");
 const serverService = require('../services/server');
 const databaseService = require('../services/database');
 const app = require('../app');
@@ -89,8 +89,7 @@ async function onListening() {
   const tunnel = await localtunnel({ port: 3000 });
   process.env.SERVER_ADDRESS = tunnel.url;
   console.log(process.env.SERVER_ADDRESS);
-  const recordingDir = './Recordings';
-  const addr = server.address();
+  const recordingDir = './Recordings';  const addr = server.address();
   const bind = typeof addr === 'string'
     ? 'pipe ' + addr
     : 'port ' + addr.port;
@@ -99,10 +98,7 @@ async function onListening() {
   if (await serverService.checkRefreshToken()) {
     await serverService.checkServerStatus();
   }
-
-  if (!fs.existsSync(recordingDir)) {
-    fs.mkdirSync(recordingDir);
-  }
+  serverService.checkFileStorageFolders();
 
   console.log(`Server started. Listening on port: ${port}`);
 }

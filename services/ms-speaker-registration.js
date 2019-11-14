@@ -8,7 +8,12 @@ const fs = require('fs');
 const { getDatabase } = require('./database');
 
 let guid;
-let operationUrl;
+
+async function getPersonName(profileId) {
+    const db = getDatabase();
+    const person = await db.collection('people').findOne({azureSpeakerRecognitionGuid: profileId});
+    return `${person.firstName} ${person.lastName}`;
+}
 
 
 async function getPersonName(profileId) {
@@ -41,7 +46,7 @@ function createEnrollment(blob, res) {
     xhr.setRequestHeader("Content-Type", "application/json");
     xhr.onload = function () {
         if (xhr.readyState === 4 && xhr.status === 202) {
-            operationUrl = xhr.getResponseHeader("Operation-Location");
+            let operationUrl = xhr.getResponseHeader("Operation-Location");
             setTimeout(function() {
                 // status check api call
                 let xhrStatusCheck = new XMLHttpRequest();
@@ -71,7 +76,7 @@ function submit(data) {
         db.collection('people').updateOne(
             { email: data.email },
             { $set: {
-                email:data.email, 
+                email:data.email,
                 firstName: data.firstName,
                 lastName: data.lastName,
                 phoneNumber: null,
@@ -129,7 +134,7 @@ async function tagTranscription(meetingId, profileIds, untaggedTranscription) {
         }
     }
     Promise.all(promises).then(() => {
-        fs.writeFileSync(`${__dirname}/transcribe/output/${meetingId}.txt`, untaggedTranscription);
+        fs.writeFileSync(`${__appRoot}/transcriptions/${meetingId}.txt`, untaggedTranscription);
     }).catch((err) => {
         console.log(err);
     });
@@ -152,27 +157,9 @@ async function getOperationStatus(location) {
     }
 }
 
-async function getProfile(profileId) {
-    const options = {
-        method: 'get',
-        url: AZURE_ENDPOINT + `/identificationProfiles/${profileId}`,
-        headers: {
-            'Ocp-Apim-Subscription-Key': AZURE_KEY
-        }
-    };
-    try {
-        const response = await axios(options);
-        console.log(response.data);
-    } catch (err) {
-        console.log("Fail to get profile.\n");
-        console.log(err);
-    }
-}
-
 module.exports = {
     createProfile: createProfile,
     createEnrollment: createEnrollment,
     submit: submit,
     tagTranscription: tagTranscription,
-    getProfile: getProfile
 };
