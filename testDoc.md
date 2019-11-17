@@ -33,6 +33,32 @@ docker logs -f ${the running container id}
 Sample output in the terminal:
 
 ```
+> parrot@0.0.0 start /Users/Vince/Projects/meeting-transcribe-service
+> node ./bin/www
+
+https://wet-eagle-95.localtunnel.me
+Database successfully connected.
+AccessToken has expired.
+Requesting new AccessToken with RefreshToken...
+Tokens saved.
+Notification URL updated.
+POST /email?validationToken=Validation%3a+Testing+client+application+reachability+for+subscription+Request-Id%3a+336960d6-2589-9366-b34e-2f45c1379c9f 200 3.240 ms - 117
+Microsoft Graph API Subscription created. Id: eb305c17-c17b-4b22-a757-215d9590e12c
+Current subscriptions:
+[
+  {
+    "id": "eb305c17-c17b-4b22-a757-215d9590e12c",
+    "resource": "me/events",
+    "applicationId": "220cf0fd-9bf3-47fb-b86d-7976d3ffafd4",
+    "changeType": "created,updated",
+    "clientState": null,
+    "notificationUrl": "https://wet-eagle-95.localtunnel.me/email",
+    "expirationDateTime": "2019-11-17T02:21:23.975Z",
+    "creatorId": "00037FFE262C380D"
+  }
+]
+Server started. Listening on port: 3000
+
 Database updated.
 POST /email 202 1853.062 ms - 8
 Calling to meeting:AQMkADAwATM3ZmYAZS0yNjJjLTM4MGQtMDACLTAwCgBGAAAD8qzntYMa0UmNcvdfBhUq0gcADCxh1Fj7O0a5Tk9J4AgFYAAAAgENAAAADCxh1Fj7O0a5Tk9J4AgFYAAAABW6qIMAAAA=
