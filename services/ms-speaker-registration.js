@@ -74,7 +74,7 @@ function submit(data) {
         db.collection('people').updateOne(
             { email: data.email },
             { $set: {
-                email:data.email,
+                email:data.email, 
                 firstName: data.firstName,
                 lastName: data.lastName,
                 phoneNumber: null,
