@@ -1,7 +1,0 @@
-version: '3.7'
-services:
-  webapp:
-    image: ychenvin/mtsparrot:MVP-Nov13
-    ports:
-      - 8888:3000
-    restart: always

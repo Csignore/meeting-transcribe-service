@@ -1,75 +1,32 @@
-# docker-parrot
+# Parrot
 > a meeting transcription service
 
 ## Installation
-1. Install docker and set the enviornment to Linux.
-2. Pull the latest docker images, which now is 2.0
+```shell script
+npm install
 ```
-docker pull ychenvin/mtsparrot:{the latest tag}
-```
+And use [this link](https://drive.google.com/drive/folders/1aE_LjLUkRsbb2ywcFtjPlKd4GyBHGaBB?usp=sharing) to get the `.env` and `private-key.json` files.
+Put these files under the root directory of the app.
 
-## Run the image
-1. start the server:
+You also need install [FFmpeg](https://www.ffmpeg.org/) on your machine to be able to run the transcription.
+1. For MacOS user, it is recommended to use ```brew install ffmpeg```.
+2. For Windows user, once download and installation are finished, make sure to declare the installation path in the ```services/transcribe/audioTrim.js```. The following code are recommended: 
 ```
-docker run -d -p 8888:3000 ychenvin/mtsparrot:{the latest tag}
-```
-
-2. view the real-time command line logs of the container:
-```
-docker ps
-```
-&
-```
-docker logs -f ${the running container id}
-```
-
-By this point, the console should look like below:
-```
-Microsoft Graph API Subscription created. Id: a984513f-05a3-42ad-a0a4-b21721913145
-Current subscriptions:
-[
-  {
-    "id": "a984513f-05a3-42ad-a0a4-b21721913145",
-    "resource": "me/events",
-    "applicationId": "220cf0fd-9bf3-47fb-b86d-7976d3ffafd4",
-    "changeType": "created,updated",
-    "clientState": null,
-    "notificationUrl": "https://sharp-jellyfish-8.localtunnel.me/email",
-    "expirationDateTime": "2019-11-19T05:53:46.303Z",
-    "creatorId": "00037FFE262C380D"
-  }
-]
-Database updated.
-Server started. Listening on port: 3000
-```
-
-## Test
-1. Go to [localhost:8888/enroll](localhost:8888/enroll) and follow the instructions to enroll your email address and your voice sample.
-2. Use the pre-registered email address to send a meeting invitation to [wavesbot319@outlook.com](); make sure the email body contains ``` [meeting phone number: {Your phone number}]```*.
-3. Upon this point, the logs in the terminal should have some POST request which indicates meeting created/updated/deleted.
-4. If the phone number in the email body is matched with the twillio phone number, you should expect a call when it is the meeting time.
-5. Once finished the phone call, MTS will start its transcription and recognize the speakers.
-
-Sample output in the terminal:
-
-```
-Database updated.
-POST /email 202 1853.062 ms - 8
-Calling to meeting:AQMkADAwATM3ZmYAZS0yNjJjLTM4MGQtMDACLTAwCgBGAAAD8qzntYMa0UmNcvdfBhUq0gcADCxh1Fj7O0a5Tk9J4AgFYAAAAgENAAAADCxh1Fj7O0a5Tk9J4AgFYAAAABW6qIMAAAA=
-Map { 1 => [ [ 0, 7.1 ], [ 8.5, 12.6 ] ] }
-Processing finished !
-6e414b2e-372c-41f2-9077-2e68b3d074ab
-https://cs319speechrecog.cognitiveservices.azure.com/spid/v1.0/operations/d1f76ebb-8e53-4e43-b9d0-18f2cd16df37
-```
-
-Sample output files in the /services/transcibe/output
-
-```
-{meetingID}.txt
-speaker1.wav
-speaker2.wav
+ffmpeg.setFfmpegPath("[Your installation path]\\ffmpeg.exe");
+ffmpeg.setFfprobePath("[Your installation path]\\ffprobe.exe");
 ```
 
 
-## Conclusion
-This is the integrated product of the meeting transcibe services. All the components are deployed in the docker image.
+## Start Server
+```shell script
+npm start
+```
+
+## Test Procedure
+1. Start Server
+2. Open `localhost:3000/enroll` in your browser. Follow the instructions on the page.
+3. Use your email to send a meeting invitation to `wavesbot319@outlook.com`, include your phone number in the email
+body using this format:
+`[Meeting phone number: {YOUR PHONE NUMBER HERE}]`
+4. There should be a phone call to your phone at the time you specified in the meeting invitation.
+5. Hand up the phone. A transcription file should be generate in `./transcriptions`  shortly.

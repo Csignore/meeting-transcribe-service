@@ -74,12 +74,12 @@ function submit(data) {
         db.collection('people').updateOne(
             { email: data.email },
             { $set: {
-                    email:data.email,
-                    firstName: data.firstName,
-                    lastName: data.lastName,
-                    phoneNumber: null,
-                    azureSpeakerRecognitionGuid: guid
-                } },
+                email:data.email,
+                firstName: data.firstName,
+                lastName: data.lastName,
+                phoneNumber: null,
+                azureSpeakerRecognitionGuid: guid
+            } },
             {
                 upsert: true
             }
