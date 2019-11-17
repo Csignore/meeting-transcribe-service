@@ -94,6 +94,7 @@ async function getUntaggedTranscription(meetingId, speakerCount) {
     for (let [key, value] of speakersAudio) {
         await audioTrim.getSpeakersSample(value, key);
     }
+    console.log(sentence);
     return sentence;
 }
 

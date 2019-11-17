@@ -4,12 +4,12 @@
  * Module dependencies.
  */
 require('dotenv').config();
+const localtunnel = require('localtunnel');
 const debug = require('debug')('parrot:server');
 const http = require('http');
 const serverService = require('../services/server');
 const databaseService = require('../services/database');
 const app = require('../app');
-const localtunnel = require('localtunnel');
 
 /**
  * Get port from environment and store in Express.
@@ -62,8 +62,8 @@ function onError(error) {
   }
 
   const bind = typeof port === 'string'
-    ? 'Pipe ' + port
-    : 'Port ' + port;
+      ? 'Pipe ' + port
+      : 'Port ' + port;
 
   // handle specific listen errors with friendly messages
   switch (error.code) {
@@ -85,14 +85,15 @@ function onError(error) {
  */
 
 async function onListening() {
-  const tunnel = await localtunnel({ port: 3000 });
-  process.env.SERVER_ADDRESS = tunnel.url;
-  console.log(process.env.SERVER_ADDRESS);
-  const recordingDir = './Recordings';  const addr = server.address();
+  const addr = server.address();
   const bind = typeof addr === 'string'
-    ? 'pipe ' + addr
-    : 'port ' + addr.port;
+      ? 'pipe ' + addr
+      : 'port ' + addr.port;
   debug('Listening on ' + bind);
+  if (process.env.SERVER_ADDRESS === 'localhost') {
+    const tunnel = await localtunnel({ port: port });
+    process.env.SERVER_ADDRESS = tunnel.url;
+  }
   await databaseService.connectDatabase();
   if (await serverService.checkRefreshToken()) {
     await serverService.checkServerStatus();

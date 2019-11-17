@@ -10,13 +10,7 @@ const { getDatabase } = require('./database');
 let guid;
 
 async function getPersonName(profileId) {
-    const db = getDatabase();
-    const person = await db.collection('people').findOne({azureSpeakerRecognitionGuid: profileId});
-    return `${person.firstName} ${person.lastName}`;
-}
-
-
-async function getPersonName(profileId) {
+    console.log(profileId);
     const db = getDatabase();
     const person = await db.collection('people').findOne({azureSpeakerRecognitionGuid: profileId});
     if (person) {
@@ -80,12 +74,12 @@ function submit(data) {
         db.collection('people').updateOne(
             { email: data.email },
             { $set: {
-                email:data.email,
-                firstName: data.firstName,
-                lastName: data.lastName,
-                phoneNumber: null,
-                azureSpeakerRecognitionGuid: guid
-            } },
+                    email:data.email,
+                    firstName: data.firstName,
+                    lastName: data.lastName,
+                    phoneNumber: null,
+                    azureSpeakerRecognitionGuid: guid
+                } },
             {
                 upsert: true
             }
@@ -115,6 +109,7 @@ async function tagTranscription(meetingId, profileIds, untaggedTranscription) {
                         const response = await axios(options);
                         const operationLocation = response.headers['operation-location'];
                         schedule.scheduleJob(operationLocation, '*/5 * * * * *', async () => {
+                            console.log("Scheduling a job!!!\n");
                             const data = await getOperationStatus(operationLocation);
                             //console.log(data);
                             if (data.status === 'succeeded') {
