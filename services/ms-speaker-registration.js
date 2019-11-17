@@ -19,7 +19,11 @@ async function getPersonName(profileId) {
 async function getPersonName(profileId) {
     const db = getDatabase();
     const person = await db.collection('people').findOne({azureSpeakerRecognitionGuid: profileId});
-    return `${person.firstName} ${person.lastName}`;
+    if (person) {
+        return `${person.firstName} ${person.lastName}`;
+    } else {
+        return 'Unknown';
+    }
 }
 
 function createProfile(res) {
@@ -92,7 +96,6 @@ function submit(data) {
 }
 
 async function tagTranscription(meetingId, profileIds, untaggedTranscription) {
-    console.log(profileIds.join());
     const promises = [];
     for (let i = 0; i < profileIds.length; i++) {
         if (untaggedTranscription.includes(`speaker${i + 1}`)) {
@@ -111,7 +114,6 @@ async function tagTranscription(meetingId, profileIds, untaggedTranscription) {
                     try {
                         const response = await axios(options);
                         const operationLocation = response.headers['operation-location'];
-                        console.log(operationLocation);
                         schedule.scheduleJob(operationLocation, '*/5 * * * * *', async () => {
                             const data = await getOperationStatus(operationLocation);
                             //console.log(data);

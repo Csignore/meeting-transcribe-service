@@ -14,8 +14,8 @@ docker pull ychenvin/mtsparrot
 docker run -d -p 8888:3000 ychenvin/mtsparrot:MVP-Nov13
 ```
 
-2. view the real-time command line logs of the container: 
-``` 
+2. view the real-time command line logs of the container:
+```
 docker ps
 ```
 &
@@ -28,7 +28,7 @@ docker logs -f ${the running container id}
 2. Use the pre-registered email address to send a meeting invitation to [wavesbot319@outlook.com](); make sure the email body contains ``` [meeting phone number: 7778889999]```*.
 3. Upon this point, the logs in the terminal should have some POST request which indicates meeting created/updated/deleted.
 4. If the phone number in the email body is matched with the twillio phone number, you should expect a call when it is the meeting time.
-5. Once finished the phone call, MTS will start its transcription and recognize the speakers. 
+5. Once finished the phone call, MTS will start its transcription and recognize the speakers.
 
 Sample output in the terminal:
 
@@ -53,4 +53,4 @@ speaker2.wav
 * for now, the phone number can only be Vincent's phone number, because twillio trial account only allows one phone number.
 
 ## Conclusion
-This is the integrated product of the meeting transcibe services. All the components are deployed in the docker image. 
+This is the integrated product of the meeting transcibe services. All the components are deployed in the docker image.
